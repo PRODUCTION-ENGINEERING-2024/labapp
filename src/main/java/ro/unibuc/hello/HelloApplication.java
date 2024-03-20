@@ -31,11 +31,10 @@ public class HelloApplication {
 		informationRepository.deleteAll();
 		informationRepository.save(new InformationEntity("Overview",
 				"This is an example of using a data storage engine running separately from our applications server"));
+				
 		userRepository.deleteAll();
 		userRepository.save(new UserEntity("HAU","Tudor",21,"ala"));
 
-
-		
 	}
 
 }

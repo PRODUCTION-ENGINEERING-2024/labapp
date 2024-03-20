@@ -31,4 +31,11 @@ public class UserService {
         userRepository.save(userEntity);
         return "User added";
     }
+
+        public void deleteUserById(String id)
+        {
+            userRepository.deleteById(id);
+        }
+    
+        
 }
