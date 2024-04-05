@@ -58,40 +58,41 @@ class UserControllerTest {
         assertEquals(objectMapper.writeValueAsString(userEntity), result.getResponse().getContentAsString());
     }
 
-    // @Test
-    // void testAddUser() throws Exception {
-    //     // Arrange
-    //     UserDto userDto = new UserDto("John", "Doe", 30, "johndoe");
+    @Test
+    void testAddUser() throws Exception {
+        // Arrange
+        UserDto userDto = new UserDto("John", "Doe", 30, "johndoe");
+        when(userService.addUser(userDto)).thenReturn("User added");
+        // Act
+        MvcResult result = mockMvc.perform(post("/addUser")
+                .content(objectMapper.writeValueAsString(userDto))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
 
-    //     // Act
-    //     MvcResult result = mockMvc.perform(post("/addUser")
-    //             .content(objectMapper.writeValueAsString(userDto))
-    //             .contentType(MediaType.APPLICATION_JSON))
-    //             .andExpect(status().isOk())
-    //             .andReturn();
+        String response = result.getResponse().getContentAsString();
+        System.out.println("testAddUser" + response);
+        // Assert
+        assertEquals("User added", response);
+    }
 
-    //     String response = result.getResponse().getContentAsString();
-    //     System.out.println("testAddUser" + response);
-    //     // Assert
-    //     assertEquals("User added", response);
-    // }
+    @Test
+    void testDeleteUserById() throws Exception {
+        // Arrange
+        UserEntity userEntity = new UserEntity("John", "Doe", 30, "johndoe");
+        when(userService.deleteUserById("1")).thenReturn("User deleted");
 
-    // @Test
-    // void testDeleteUserById() throws Exception {
-    //     // Arrange
-    //     UserEntity userEntity = new UserEntity("John", "Doe", 30, "johndoe");
-
-    //     // Act
-    //     MvcResult result = mockMvc.perform(delete("/deleteUser/1"))
-    //             .andExpect(status().isOk())
-    //             .andReturn();
+        // Act
+        MvcResult result = mockMvc.perform(delete("/deleteUser/1"))
+                .andExpect(status().isOk())
+                .andReturn();
 
 
-    //     String response = result.getResponse().getContentAsString();
-    //     System.out.println("testDeleteUserById" + response);
-    //     // Assert
-    //     assertEquals("User deleted", response);
-    // }
+        String response = result.getResponse().getContentAsString();
+        System.out.println("testDeleteUserById" + response);
+        // Assert
+        assertEquals("User deleted", response);
+    }
 
     // @Test
     // void testGetUserNotFound() throws Exception {
