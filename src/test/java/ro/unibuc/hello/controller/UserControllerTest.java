@@ -16,6 +16,7 @@ import ro.unibuc.hello.dto.UserDto;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.UserService;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
@@ -94,19 +95,18 @@ class UserControllerTest {
         assertEquals("User deleted", response);
     }
 
-    // @Test
-    // void testGetUserNotFound() throws Exception {
-    //     EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> mockMvc.perform(get("/getUser/1234567890")));
-    //     assertNotNull(exception, "Exception");
-    // }
     
 
-    // @Test
-    // void testDeleteUserByIdNotFound() throws Exception {
-    //     // Arrange
-    //     when(userService.deleteUserById("1")).thenThrow(new EntityNotFoundException("User not found with id: 1"));
+    @Test
+    void testDeleteUserByIdNotFound() throws Exception {
+        // Arrange
+        when(userService.deleteUserById("1")).thenThrow(new EntityNotFoundException("User not found with id: 1"));
 
-    //     // Act & Assert
-    //     assertThrows(EntityNotFoundException.class, () -> mockMvc.perform(delete("/deleteUser/1")));
-    // }
+        // Act 
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> userController.deleteUserById("1"), 
+            "Expected deleteUserById() to throw EntityNotFoundException, but it didn't");
+        
+        //Assert
+        assertTrue(exception.getMessage().contains("1"));
+    }
 }
