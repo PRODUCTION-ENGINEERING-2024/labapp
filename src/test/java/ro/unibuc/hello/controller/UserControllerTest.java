@@ -16,6 +16,9 @@ import ro.unibuc.hello.dto.UserDto;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.UserService;
 
+
+import static org.junit.Assert.assertTrue;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
@@ -58,54 +61,55 @@ class UserControllerTest {
         assertEquals(objectMapper.writeValueAsString(userEntity), result.getResponse().getContentAsString());
     }
 
-    // @Test
-    // void testAddUser() throws Exception {
-    //     // Arrange
-    //     UserDto userDto = new UserDto("John", "Doe", 30, "johndoe");
 
-    //     // Act
-    //     MvcResult result = mockMvc.perform(post("/addUser")
-    //             .content(objectMapper.writeValueAsString(userDto))
-    //             .contentType(MediaType.APPLICATION_JSON))
-    //             .andExpect(status().isOk())
-    //             .andReturn();
+    @Test
+    void testAddUser() throws Exception {
+        // Arrange
+        UserDto userDto = new UserDto("John", "Doe", 30, "johndoe");
+        when(userService.addUser(userDto)).thenReturn("User added");
+        // Act
+        MvcResult result = mockMvc.perform(post("/addUser")
+                .content(objectMapper.writeValueAsString(userDto))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
 
-    //     String response = result.getResponse().getContentAsString();
-    //     System.out.println("testAddUser" + response);
-    //     // Assert
-    //     assertEquals("User added", response);
-    // }
+        String response = result.getResponse().getContentAsString();
+        System.out.println("testAddUser" + response);
+        // Assert
+        assertEquals("User added", response);
+    }
 
-    // @Test
-    // void testDeleteUserById() throws Exception {
-    //     // Arrange
-    //     UserEntity userEntity = new UserEntity("John", "Doe", 30, "johndoe");
+    @Test
+    void testDeleteUserById() throws Exception {
+        // Arrange
+        UserEntity userEntity = new UserEntity("John", "Doe", 30, "johndoe");
+        when(userService.deleteUserById("1")).thenReturn("User deleted");
 
-    //     // Act
-    //     MvcResult result = mockMvc.perform(delete("/deleteUser/1"))
-    //             .andExpect(status().isOk())
-    //             .andReturn();
+        // Act
+        MvcResult result = mockMvc.perform(delete("/deleteUser/1"))
+                .andExpect(status().isOk())
+                .andReturn();
 
 
-    //     String response = result.getResponse().getContentAsString();
-    //     System.out.println("testDeleteUserById" + response);
-    //     // Assert
-    //     assertEquals("User deleted", response);
-    // }
+        String response = result.getResponse().getContentAsString();
+        System.out.println("testDeleteUserById" + response);
+        // Assert
+        assertEquals("User deleted", response);
+    }
 
-    // @Test
-    // void testGetUserNotFound() throws Exception {
-    //     EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> mockMvc.perform(get("/getUser/1234567890")));
-    //     assertNotNull(exception, "Exception");
-    // }
     
 
-    // @Test
-    // void testDeleteUserByIdNotFound() throws Exception {
-    //     // Arrange
-    //     when(userService.deleteUserById("1")).thenThrow(new EntityNotFoundException("User not found with id: 1"));
+    @Test
+    void testDeleteUserByIdNotFound() throws Exception {
+        // Arrange
+        when(userService.deleteUserById("1")).thenThrow(new EntityNotFoundException("User not found with id: 1"));
 
-    //     // Act & Assert
-    //     assertThrows(EntityNotFoundException.class, () -> mockMvc.perform(delete("/deleteUser/1")));
-    // }
+        // Act 
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> userController.deleteUserById("1"), 
+            "Expected deleteUserById() to throw EntityNotFoundException, but it didn't");
+        
+        //Assert
+        assertTrue(exception.getMessage().contains("1"));
+    }
 }
