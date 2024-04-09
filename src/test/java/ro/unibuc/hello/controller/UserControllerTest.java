@@ -16,7 +16,9 @@ import ro.unibuc.hello.dto.UserDto;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 import ro.unibuc.hello.service.UserService;
 
+
 import static org.junit.Assert.assertTrue;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
@@ -58,6 +60,7 @@ class UserControllerTest {
         // Assert
         assertEquals(objectMapper.writeValueAsString(userEntity), result.getResponse().getContentAsString());
     }
+
 
     @Test
     void testAddUser() throws Exception {
