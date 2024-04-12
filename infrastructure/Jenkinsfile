@@ -22,8 +22,8 @@ pipeline {
                 echo "MAJOR_VERSION: ${MAJOR_VERSION}"
                 echo "MINOR_VERSION: ${MINOR_VERSION}"
                 echo "PATCH_VERSION: ${PATCH_VERSION}"
-                sh "docker build -t murika/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
-                sh "docker push murika/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION}"
+                sh "docker build -t murika/hello-img:\$(${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION}) ."
+                sh "docker push murika/hello-img:\$(${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION})"
                 sh "git tag ${env.IMAGE_TAG}"
                 sh "git push https://$GITHUB_TOKEN@github.com/PRODUCTION-ENGINEERING-2024/labapp.git ${env.IMAGE_TAG}"
             }
