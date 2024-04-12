@@ -18,12 +18,14 @@ pipeline {
                     MAJOR_VERSION = sh([script: 'git tag | cut -d . -f 1', returnStdout: true]).trim()
                     MINOR_VERSION = sh([script: 'git tag | cut -d . -f 2', returnStdout: true]).trim()
                     PATCH_VERSION = sh([script: 'git tag | cut -d . -f 3', returnStdout: true]).trim()
+                    IMG_NAME = "murika/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
                 }
                 echo "MAJOR_VERSION: ${MAJOR_VERSION}"
                 echo "MINOR_VERSION: ${MINOR_VERSION}"
                 echo "PATCH_VERSION: ${PATCH_VERSION}"
-                sh "docker build -t murika/hello-img:\$(${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION}) ."
-                sh "docker push murika/hello-img:\$(${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION})"
+                echo "IMG_NAME: ${IMG_NAME}"
+                sh "docker build -t murika/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
+                sh "docker push murika/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION}"
                 sh "git tag ${env.IMAGE_TAG}"
                 sh "git push https://$GITHUB_TOKEN@github.com/PRODUCTION-ENGINEERING-2024/labapp.git ${env.IMAGE_TAG}"
             }
