@@ -18,18 +18,18 @@ pipeline {
                     MAJOR_VERSION = sh([script: 'git tag | cut -d . -f 1', returnStdout: true]).trim()[0]
                     MINOR_VERSION = sh([script: 'git tag | cut -d . -f 2', returnStdout: true]).trim()[0]
                     PATCH_VERSION = sh([script: 'git tag | cut -d . -f 3', returnStdout: true]).trim()[0]
-                    IMG_NAME = "murika/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
-                    IMG_NAME2 = "murika/hello-img:" + MAJOR_VERSION + "." + "${(MINOR_VERSION.toInteger() + 1)}" +"." + PATCH_VERSION
+                    IMG_TAG = MAJOR_VERSION + "." + "${(MINOR_VERSION.toInteger() + 1)}" +"." + PATCH_VERSION
+                    IMG_NAME = "murika/hello-img:" + IMG_TAG
                 }
                 echo "GIT_TAG: ${GIT_TAG}"
                 echo "MAJOR_VERSION: ${MAJOR_VERSION}"
                 echo "MINOR_VERSION: ${MINOR_VERSION}"
                 echo "PATCH_VERSION: ${PATCH_VERSION}"
-                echo "IMG_NAME: ${IMG_NAME2}"
-                sh "docker build -t murika/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
-                sh "docker push murika/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION}"
-                sh "git tag ${env.IMAGE_TAG}"
-                sh "git push https://$GITHUB_TOKEN@github.com/PRODUCTION-ENGINEERING-2024/labapp.git ${env.IMAGE_TAG}"
+                echo "IMG_NAME: ${IMG_NAME}"
+                sh "docker build -t ${IMG_NAME} ."
+                sh "docker push ${IMG_NAME}"
+                sh "git tag ${IMG_TAG}"
+                sh "git push https://$GITHUB_TOKEN@github.com/PRODUCTION-ENGINEERING-2024/labapp.git ${IMG_TAG}"
             }
         }
     }
