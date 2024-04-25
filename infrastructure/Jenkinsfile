@@ -36,11 +36,6 @@ pipeline {
                 sh "IMAGE_TAG=${env.IMAGE_TAG} docker compose up -d hello mongo"
             }
         }
-        stage('Deploy') {
-            steps{
-                sh 'kubectl apply -f infrastructure/kubernetes/hello.yaml'
-            }
-        }
         stage('Run integration tests'){
 	        steps{
                sh "./gradlew test"
