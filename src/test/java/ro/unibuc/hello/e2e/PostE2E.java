@@ -5,7 +5,8 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-public class HelloWorldE2E {
-
-    
+@CucumberOptions(features = "src/test/resources",
+                
+                tags = "E2E")
+public class PostE2E {
 }
