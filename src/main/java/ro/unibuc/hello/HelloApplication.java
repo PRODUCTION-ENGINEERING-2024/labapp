@@ -16,8 +16,9 @@ import ro.unibuc.hello.data.UserEntity;
 import java.time.LocalDateTime;
 
 import javax.annotation.PostConstruct;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@SpringBootApplication
+@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
 @EnableMongoRepositories(basePackageClasses = {InformationRepository.class,   UserRepository.class, PostRepository.class})
 public class HelloApplication {
 
@@ -42,6 +43,7 @@ public class HelloApplication {
 				
 		userRepository.deleteAll();
 		userRepository.save(new UserEntity("HAU","Tudor",21,"ala"));
+		userRepository.save(new UserEntity("Doe","John",21,"johndoe"));
 
 		postRepository.deleteAll();
 		postRepository.save(
@@ -50,6 +52,14 @@ public class HelloApplication {
 				"Cluj",
 				LocalDateTime.now(),
 				10
+			)
+		);
+		postRepository.save(
+			new PostEntity(
+				"Fotbal Crangasi",
+				"Parc Crangasi",
+				LocalDateTime.now(),
+				18
 			)
 		);
 	}

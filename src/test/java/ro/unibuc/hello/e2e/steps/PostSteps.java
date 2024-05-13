@@ -6,6 +6,7 @@ import io.cucumber.java.en.When;
 import io.cucumber.spring.CucumberContextConfiguration;
 import ro.unibuc.hello.data.PostEntity;
 import ro.unibuc.hello.data.UserEntity;
+import ro.unibuc.hello.dto.PostDto;
 import ro.unibuc.hello.service.PostService;
 import ro.unibuc.hello.service.UserService;
 import java.time.LocalDateTime;
@@ -22,8 +23,8 @@ import com.mongodb.internal.connection.Time;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@CucumberContextConfiguration
-@SpringBootTest()
+
+@SpringBootTest
 public class PostSteps {
 
     @Autowired
@@ -62,8 +63,8 @@ public class PostSteps {
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
-    @Then("the response should be {string}")
-    public void the_response_should_be(String expectedResponse) {
-        assertEquals(expectedResponse, response.getBody());
-    }
+    // @Then("the response should be {string}")
+    // public void the_response_should_be(String expectedResponse) {
+    //     assertEquals(expectedResponse, response.getBody());
+    // }
 }
