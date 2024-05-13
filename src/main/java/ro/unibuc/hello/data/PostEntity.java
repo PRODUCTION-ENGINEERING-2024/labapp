@@ -18,7 +18,8 @@ public class PostEntity {
     public String id;
     public String title;
     public String location;
-    public Timestamp dateTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    public LocalDateTime dateTime;
     public Integer totalNumberOfPlayers;
     @DBRef
     public List<UserEntity> playersJoined;
@@ -30,12 +31,17 @@ public class PostEntity {
     public PostEntity(String title, String location, LocalDateTime dateTime, Integer totalNumberOfPlayers) {
         this.title = title;
         this.location = location;
-        this.dateTime = Timestamp.valueOf(dateTime);
+        this.dateTime = dateTime;
         this.totalNumberOfPlayers = totalNumberOfPlayers;
         this.playersJoined = new ArrayList<UserEntity>();
     }
 
     public void addUser(UserEntity user) {
         this.playersJoined.add(user);
+    }
+
+    public PostEntity orElseThrow(Object object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
     }
 }

@@ -26,6 +26,9 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
     }
     
+    public UserEntity getUserByUserName(String userName) {
+        return userRepository.findByUserName(userName);
+    }
     public String addUser(UserDto user) {
         UserEntity userEntity = new UserEntity(user.getLastName(), user.getFirstName(), user.getAge(),user.getUserName());
         userRepository.save(userEntity);

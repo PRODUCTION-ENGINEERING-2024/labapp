@@ -30,5 +30,10 @@ public class UserEntity {
                 "User[lastName='%s', firstName='%s', age='%s', userName='%s']",
                 lastName, firstName, age, userName);
     }
+
+    public UserEntity orElseThrow(Object object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
+    }
     
 }

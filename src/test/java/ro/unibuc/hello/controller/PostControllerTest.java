@@ -1,6 +1,8 @@
 package ro.unibuc.hello.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,13 +50,13 @@ public class PostControllerTest {
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(postController).build();
         objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule()); 
     }
 
     @Test
     void testGetPost() throws Exception {
         //Arrange
-        PostEntity postEntity = new PostEntity("Fotbal Crangasi", "Parc Crangasi",  LocalDateTime.of(
-            2024, Month.APRIL, 24, 14, 30, 00), 18);
+        PostEntity postEntity = new PostEntity("Fotbal Crangasi", "Parc Crangasi",  LocalDateTime.now(), 18);
         when(postService.getPost("1")).thenReturn(postEntity);
 
         //Act
@@ -62,6 +64,8 @@ public class PostControllerTest {
                     .andExpect(status().isOk())
                     .andReturn();
 
+        System.out.println(result.getResponse().getContentAsString());
+        System.out.println(objectMapper.writeValueAsString(postEntity));
         assertEquals(objectMapper.writeValueAsString(postEntity), result.getResponse().getContentAsString());
     }
 
