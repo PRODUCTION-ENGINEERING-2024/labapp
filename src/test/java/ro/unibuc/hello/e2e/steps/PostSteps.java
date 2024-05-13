@@ -11,6 +11,8 @@ import ro.unibuc.hello.service.PostService;
 import ro.unibuc.hello.service.UserService;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import org.apache.catalina.User;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +24,7 @@ import com.mongodb.internal.connection.Time;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-
+import static org.mockito.Mockito.mock;
 
 @SpringBootTest
 public class PostSteps {
@@ -38,23 +40,28 @@ public class PostSteps {
     @Autowired
     private UserService userService;
      
-    @Given("a post exists with ID {string} and details {string}, {string}, {string}, {int}")
-    public void a_post_exists_with_id_and_details(String id, String title, String location, String dateTime, Integer maxParticipants) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime localDateTime = LocalDateTime.parse(dateTime, formatter);
-        PostEntity post = new PostEntity(title, location, localDateTime, maxParticipants);
-        when(postService.getPost(id)).thenReturn(post);
+    @Given("a post exists with Name {string}")
+    public void a_post_exists_with_id_and_details(String name) {
+        PostService postServiceMock = mock(PostService.class);
+        PostEntity post = postServiceMock.getPostByTitle(name);
+        when(postServiceMock.getPostByTitle(name)).thenReturn(post);
     }
 
-    @Given("a user exists with ID {string} and details {string}, {string}, {int}, {string}")
-    public void a_user_exists_with_id_and_details(String id, String firstName, String lastName, Integer age, String username) {
-        UserEntity user = new UserEntity(firstName, lastName, age, username);
-        when(userService.getUser(id)).thenReturn(user);
+    @Given("a user exists with UserName {string}")
+    public void a_user_exists_with_id_and_details(String username) {
+        UserService userServiceMock = mock(UserService.class);
+        UserEntity user = userServiceMock.getUserByUserName(username);
+        when(userServiceMock.getUserByUserName(username)).thenReturn(user);
     }
 
-    @When("I register user with ID {string} to post with ID {string}")
-    public void i_register_user_with_id_to_post_with_id(String userId, String postId) {
-        String url = "http://localhost:8080/registerUserToPost/" + postId + "/" + userId;
+    @When("I register user with UserName {string} to post with name {string}")
+    public void i_register_user_with_id_to_post_with_id(String username, String title) {
+        UserEntity user = userService.getUserByUserName(username);
+        PostEntity post = postService.getPostByTitle(title);
+        //print user and post
+        System.out.println("User: " + user);
+        System.out.println("Post: " + post);
+        String url = "http://localhost:8080/registerUserToPost/" + user.id + "/" + post.id;
         response = restTemplate.postForEntity(url, null, String.class);
     }
 
@@ -63,8 +70,5 @@ public class PostSteps {
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
-    // @Then("the response should be {string}")
-    // public void the_response_should_be(String expectedResponse) {
-    //     assertEquals(expectedResponse, response.getBody());
-    // }
+   
 }

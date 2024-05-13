@@ -24,6 +24,10 @@ public class PostService {
         return postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(HttpStatus.NOT_FOUND.toString()));
     }
 
+    public PostEntity getPostByTitle(String title) {
+        return postRepository.findByTitle(title);
+    }
+    
     public String addPost(PostDto post) {
         PostEntity postEntity = new PostEntity(
             post.getTitle(), 
