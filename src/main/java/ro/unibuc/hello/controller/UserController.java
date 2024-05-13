@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import io.micrometer.core.annotation.Counted;
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.MeterRegistry;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 
@@ -21,9 +26,14 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    MeterRegistry metricsRegistry;
   
     @GetMapping("/getUser/{id}")
     @ResponseBody
+    @Timed(value = "hello.getuser.time", description = "Time taken to return a user")
+    @Counted(value = "hello.getuser.count", description = "Times getuser was returned")
     public UserEntity getUser(@PathVariable String id){
        try {
            return userService.getUser(id);
@@ -34,6 +44,8 @@ public class UserController {
 
     @PostMapping("/addUser")
     @ResponseBody
+    @Timed(value = "hello.adduser.time", description = "Time taken to add a user")
+    @Counted(value = "hello.adduser.count", description = "Times adduser was returned")
     public String addUser(@RequestBody UserDto userDto){  
         try {
             return userService.addUser(userDto);
@@ -45,6 +57,8 @@ public class UserController {
 
     @DeleteMapping("/deleteUser/{id}")
     @ResponseBody
+    @Timed(value = "hello.deleteuser.time", description = "Time taken to delete a user")
+    @Counted(value = "hello.deleteuser.count", description = "Times deleteuser was returned")
     public String deleteUserById(@PathVariable String id) {
         try {
             return userService.deleteUserById(id);
