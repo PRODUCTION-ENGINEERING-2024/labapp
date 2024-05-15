@@ -20,13 +20,10 @@ class HelloWorldServiceTestIT {
 
     @Test
     void test_buildGreetingFromInfo_returnsGreetingWithInformation() {
-        // Arrange
         String title = "Overview";
 
-        // Act
         Greeting greeting = helloWorldService.buildGreetingFromInfo(title);
 
-        // Assert
         Assertions.assertEquals(1, greeting.getId());
         Assertions.assertEquals("Overview : This is an example of using a data storage engine running separately from our applications server!", greeting.getContent());
     }

@@ -43,53 +43,44 @@ class HelloWorldControllerTest {
 
     @Test
     void test_sayHello() throws Exception {
-        // Arrange
         Greeting greeting = new Greeting(1, "Hello, there!");
 
         when(helloWorldService.hello("there")).thenReturn(greeting);
 
-        // Act
         MvcResult result = mockMvc.perform(get("/hello-world?name=there")
                 .content(objectMapper.writeValueAsString(greeting))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        // Assert
         Assertions.assertEquals(objectMapper.writeValueAsString(greeting), result.getResponse().getContentAsString());
     }
 
     @Test
     void test_info() throws Exception {
-        // Arrange
         Greeting greeting = new Greeting(1, "there : some description");
 
         when(helloWorldService.buildGreetingFromInfo("there")).thenReturn(greeting);
 
-        // Act
         MvcResult result = mockMvc.perform(get("/info?title=there")
                 .content(objectMapper.writeValueAsString(greeting))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        // Assert
         Assertions.assertEquals(objectMapper.writeValueAsString(greeting), result.getResponse().getContentAsString());
     }
 
     @Test
     void test_info_cascadesException() {
-        // Arrange
         String title = "there";
         when(helloWorldService.buildGreetingFromInfo(title)).thenThrow(new EntityNotFoundException(title));
 
-        // Act
         EntityNotFoundException exception = assertThrows(
                 EntityNotFoundException.class,
                 () -> helloWorldController.info(title),
                 "Expected info() to throw EntityNotFoundException, but it didn't");
 
-        // Assert
         assertTrue(exception.getMessage().contains(title));
     }
 }

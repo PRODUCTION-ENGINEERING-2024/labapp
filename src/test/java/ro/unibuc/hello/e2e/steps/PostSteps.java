@@ -3,24 +3,16 @@ package ro.unibuc.hello.e2e.steps;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.spring.CucumberContextConfiguration;
 import ro.unibuc.hello.data.PostEntity;
 import ro.unibuc.hello.data.UserEntity;
-import ro.unibuc.hello.dto.PostDto;
 import ro.unibuc.hello.service.PostService;
 import ro.unibuc.hello.service.UserService;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
-import org.apache.catalina.User;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import java.sql.Timestamp;
-import com.mongodb.internal.connection.Time;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;

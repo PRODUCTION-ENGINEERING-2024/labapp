@@ -1,7 +1,5 @@
 package ro.unibuc.hello.controller;
 
-import javax.management.ConstructorParameters;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import ro.unibuc.hello.data.PostEntity;
 import ro.unibuc.hello.dto.PostDto;
 import ro.unibuc.hello.service.PostService;
-import org.springframework.http.HttpStatus;
-import ro.unibuc.hello.dto.PostDto;
 
 @Controller
 public class PostController {

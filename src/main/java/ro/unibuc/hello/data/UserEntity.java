@@ -1,8 +1,5 @@
 package ro.unibuc.hello.data;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
-
 import org.springframework.data.annotation.Id;
 
 public class UserEntity {
@@ -32,7 +29,6 @@ public class UserEntity {
     }
 
     public UserEntity orElseThrow(Object object) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
     }
     

@@ -48,26 +48,23 @@ class UserControllerTest {
 
     @Test
     void testGetUser() throws Exception {
-        // Arrange
         UserEntity userEntity = new UserEntity("John", "Doe", 30, "johndoe");
         when(userService.getUser("1")).thenReturn(userEntity);
 
-        // Act
         MvcResult result = mockMvc.perform(get("/getUser/1"))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        // Assert
         assertEquals(objectMapper.writeValueAsString(userEntity), result.getResponse().getContentAsString());
     }
 
 
     @Test
     void testAddUser() throws Exception {
-        // Arrange
+        
         UserDto userDto = new UserDto("John", "Doe", 30, "johndoe");
         when(userService.addUser(userDto)).thenReturn("User added");
-        // Act
+
         MvcResult result = mockMvc.perform(post("/addUser")
                 .content(objectMapper.writeValueAsString(userDto))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -76,17 +73,16 @@ class UserControllerTest {
 
         String response = result.getResponse().getContentAsString();
         System.out.println("testAddUser" + response);
-        // Assert
+
         assertEquals("User added", response);
     }
 
     @Test
     void testDeleteUserById() throws Exception {
-        // Arrange
-        UserEntity userEntity = new UserEntity("John", "Doe", 30, "johndoe");
+
+
         when(userService.deleteUserById("1")).thenReturn("User deleted");
 
-        // Act
         MvcResult result = mockMvc.perform(delete("/deleteUser/1"))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -94,7 +90,7 @@ class UserControllerTest {
 
         String response = result.getResponse().getContentAsString();
         System.out.println("testDeleteUserById" + response);
-        // Assert
+
         assertEquals("User deleted", response);
     }
 
@@ -102,14 +98,14 @@ class UserControllerTest {
 
     @Test
     void testDeleteUserByIdNotFound() throws Exception {
-        // Arrange
+
         when(userService.deleteUserById("1")).thenThrow(new EntityNotFoundException("User not found with id: 1"));
 
-        // Act 
+
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> userController.deleteUserById("1"), 
             "Expected deleteUserById() to throw EntityNotFoundException, but it didn't");
         
-        //Assert
+
         assertTrue(exception.getMessage().contains("1"));
     }
 }
