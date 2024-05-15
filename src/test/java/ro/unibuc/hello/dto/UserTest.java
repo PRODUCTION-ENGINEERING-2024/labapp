@@ -2,7 +2,6 @@ package ro.unibuc.hello.dto;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ro.unibuc.hello.dto.UserDto;
 import ro.unibuc.hello.data.UserEntity;
 
 class UserTest {

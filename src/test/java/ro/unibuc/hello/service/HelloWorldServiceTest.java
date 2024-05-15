@@ -24,57 +24,45 @@ class HelloWorldServiceTest {
 
     @Test
     void test_hello_returnsGreeting(){
-        // Arrange
         String name = "John";
 
-        // Act
         Greeting greeting = helloWorldService.hello(name);
 
-        // Assert
         Assertions.assertEquals(1, greeting.getId());
         Assertions.assertEquals("Hello, John!", greeting.getContent());
     }
 
     @Test
     void test_hello_returnsGreeting_whenNameNull(){
-        // Arrange
 
-        // Act
         Greeting greeting = helloWorldService.hello(null);
 
-        // Assert
         Assertions.assertEquals(1, greeting.getId());
         Assertions.assertEquals("Hello, null!", greeting.getContent());
     }
 
     @Test
     void test_buildGreetingFromInfo_returnsGreetingWithInformation() {
-        // Arrange
         String title = "someTitle";
         InformationEntity informationEntity = new InformationEntity(title, "someDescription");
 
         when(mockInformationRepository.findByTitle(title)).thenReturn(informationEntity);
 
-        // Act
         Greeting greeting = helloWorldService.buildGreetingFromInfo(title);
 
-        // Assert
         Assertions.assertEquals(1, greeting.getId());
         Assertions.assertEquals("someTitle : someDescription!", greeting.getContent());
     }
 
     @Test
     void test_buildGreetingFromInfo_throwsEntityNotFoundException_whenInformationNull() {
-        // Arrange
         String title = "someTitle";
 
         when(mockInformationRepository.findByTitle(title)).thenReturn(null);
 
         try {
-            // Act
             Greeting greeting = helloWorldService.buildGreetingFromInfo(title);
         } catch (Exception ex) {
-            // Assert
             Assertions.assertEquals(EntityNotFoundException.class, ex.getClass());
             Assertions.assertEquals("Entity: someTitle was not found", ex.getMessage());
         }

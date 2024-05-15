@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import ro.unibuc.hello.data.UserEntity;
 import ro.unibuc.hello.dto.UserDto;
 import ro.unibuc.hello.service.UserService;
-import org.springframework.http.HttpStatus;
 
 @Controller
 public class UserController {

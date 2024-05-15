@@ -7,8 +7,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import ro.unibuc.hello.data.UserEntity;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -41,7 +39,6 @@ public class PostEntity {
     }
 
     public PostEntity orElseThrow(Object object) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
     }
 }
